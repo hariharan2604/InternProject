@@ -1,8 +1,19 @@
-const express=require("express");
-const logger=require("morgan");
-const app=express();
-app.use(logger('dev'));
-app.listen(2000);
-app.get("/",(req, res)=>{
-    res.send(200);
-})
+const express = require("express");
+
+require("dotenv").config();
+// const connection = require("./db/connection");
+const UserController = require("./controllers/userController");
+const morgan = require("morgan");
+
+const app = express();
+app.use(express.urlencoded());
+const PORT = process.env.PORT || 3000;
+app.use(morgan("dev"));
+app.use(express.json());
+const userController = new UserController();
+
+app.post("/users", userController.createUser);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
