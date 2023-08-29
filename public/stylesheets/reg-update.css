@@ -1,0 +1,118 @@
+/* Reset some default styles */
+body, h1, h2, h3, p, button, input, select, label {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif; /* Set the font family for all elements */
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Change flex direction to column */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Use min-height instead of height */
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: visible; /* Reset overflow property for the container */
+}
+
+#register {
+    width: 100%; /* Full width on small screens */
+    max-width: 500px; /* Limit width on larger screens */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.form-column {
+    flex-basis: calc(50% - 10px); /* Adjust the width and spacing as needed */
+}
+
+#regform label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#regform input[type="text"],
+#regform input[type="password"],
+#regform input[type="number"],
+#regform input[type="email"],
+#regform select,
+#regform input[type="checkbox"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px; /* Add margin to separate fields */
+}
+
+#regform select {
+    width: 100%;
+    height: 40px;
+    appearance: none;
+    background: url('../images/down-arrow-svgrepo-com.svg') no-repeat right center; /* Keep background position as right center */
+    background-position-x: 95%;
+    background-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#regform select:focus {
+    border-color: #5a8aef;
+    box-shadow: 0 0 4px rgba(90, 138, 239, 0.5);
+}
+
+#regform .signin {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#regform .signin:hover {
+    background-color: #555;
+}
+
+.form-column label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Style the radio button options */
+.radio-options {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.radio-option input[type="radio"] {
+    vertical-align: middle;
+    margin-right: 5px;
+}

@@ -1,0 +1,72 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        title Register
+        link(href="/stylesheets/reg-update.css", rel="stylesheet", type="text/css")
+        link(rel="preconnect", href="https://fonts.googleapis.com")
+        link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
+    body
+        .container
+            #register
+                form#regform(action="/register", method="post")
+                    .form-row
+                        h1(style="text-align: center") Sign Up
+                    .form-row
+                        .form-column
+                            label(for="userName") Username
+                            input(name="userName", type="text")
+                        .form-column
+                            label(for="password") Password
+                            input(required, name="password", type="password")
+                    .form-row
+                        .form-column
+                            label(for="employeeName") Name
+                            input(name="employeeName", type="text")
+                        .form-column
+                            label(for="mobileNumber") Mobile
+                            input(name="mobileNumber", type="text")
+                    .form-row
+                        .form-column
+                            label(for="age") Age
+                            input(name="age", type="number")
+                        .form-column
+                            label(for="gender") Gender
+                            select(id="gender", name="gender")
+                                option(value="Male") Male
+                                option(value="Female") Female
+                    .form-row
+                        .form-column
+                            label(for="email") Email
+                            input(name="email", type="email")
+                        .form-column
+                            label(for="designation") Designation
+                            input(name="designation", type="text")
+                    .form-row
+                        .form-column
+                            label(for="maritalStatus") Marital Status
+                            select(name="maritalStatus")
+                                option(value="Single") Single
+                                option(value="Married") Married
+                        .form-column
+                            label(for="branch") Branch
+                            select(id="branch", name="branch")
+                                option(value="Mylapore") Mylapore
+                                option(value="T Nagar") T Nagar
+                                option(value="Alwarpet") Alwarpet
+                    .form-row
+                        .form-column
+                            label(for="isAdmin") Admin:
+                            .radio-options
+                                label.radio-option
+                                    input(type="radio", name="isAdmin", value="1")
+                                    | Yes
+                                label.radio-option
+                                    input(type="radio", name="isAdmin", value="0")
+                                    | No
+
+                    input(type="submit", class="signin", value="Register")
+
+                    if (message)
+                        p.error #{message}

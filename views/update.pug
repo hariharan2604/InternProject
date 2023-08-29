@@ -1,0 +1,54 @@
+doctype html
+html
+    head
+        title Update
+        link(rel="stylesheet", href="/stylesheets/reg-update.css")
+        link(rel="preconnect", href="https://fonts.googleapis.com")
+        link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
+    body
+        .container
+            #register
+                form#regform(method="post", action="/update")
+                    .form-row
+                        h1(style="text-align: left; margin-bottom: 10px;") Profile
+                    .form-row
+                        .form-column
+                            label(for="eid") Employee ID:
+                            input(name="employeeId", type="text", readonly="true", value=employeeId)
+                        .form-column
+                            label(for="usrname") Name:
+                            input(name="employeeName", type="text", value=employeeName)
+                    .form-row
+                        .form-column
+                            label(for="mobile") Mobile:
+                            input(name="mobileNumber", type="text", value=mobileNumber)
+                        .form-column
+                            label(for="age") Age:
+                            input(name="age", type="number", value=age)
+                    .form-row
+                        .form-column
+                            label(for="gender") Gender:
+                            select(name="gender")
+                                option(value="Male", selected=gender === "Male") Male
+                                option(value="Female", selected=gender === "Female") Female
+                        .form-column
+                            label(for="email") Email:
+                            input(name="email", type="email", value=email)
+                    .form-row
+                        .form-column
+                            label(for="designation") Designation:
+                            input(name="designation", type="text", value=designation)
+                        .form-column
+                            label(for="maritalStatus") Marital Status:
+                            select(name="maritalStatus")
+                                option(value="Single", selected=maritalStatus === "Single") Single
+                                option(value="Married", selected=maritalStatus === "Married") Married
+                    .form-row
+                        .form-column
+                            label(for="branch") Branch:
+                            select(name="branch")
+                                option(value="Mylapore", selected=branch === "Mylapore") Mylapore
+                                option(value="T Nagar", selected=branch === "T Nagar") T Nagar
+                                option(value="Alwarpet", selected=branch === "Alwarpet") Alwarpet
+                    input.update(type="submit", class="signin", value="Update")

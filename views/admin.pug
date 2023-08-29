@@ -1,0 +1,53 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        title Details
+        link(href="/stylesheets/admin.css", rel="stylesheet")
+        link(rel="preconnect", href="https://fonts.googleapis.com")
+        link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
+    body
+        #display
+            #header
+                form(action="/filter", method="post")
+                    label(for="branch") Branch:
+                    select#branch(name="branch")
+                        option(value="All") All
+                        option(value="Mylapore") Mylapore
+                        option(value="T Nagar") T Nagar
+                        option(value="Alwarpet") Alwarpet
+                    button#filter(type="submit") Submit
+                p Welcome #{name}.
+            if data.message
+                h1 #{data.message}
+            else
+                table#main
+                    tr
+                        th Name
+                        th Mobile
+                        th Age
+                        th Gender
+                        th Email
+                        th Designation
+                        th Marital Status
+                        th Branch
+                        th Operations
+                    each item in data
+                        tr
+                            td= item.employeeName
+                            td= item.mobileNumber
+                            td= item.age
+                            td= item.gender
+                            td= item.email
+                            td= item.designation
+                            td= item.maritalStatus
+                            td= item.branch
+                            td
+                                button.delete
+                                    a(href=`/update/${item.employeeId}`) Update
+                                button.delete
+                                    a(href=`/delete/${item.employeeId}`) Delete
+
+                if data.error
+                    h6 Error in updating user.

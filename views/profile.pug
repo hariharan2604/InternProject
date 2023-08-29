@@ -1,0 +1,25 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        title Details
+        link(href="/stylesheets/profile.css", rel="stylesheet")
+        link(rel="preconnect", href="https://fonts.googleapis.com")
+        link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
+    body
+        .profile-card
+            .profile-header
+                //img.profile-image(src=profileImage, alt="Profile Image")
+                h2= name
+                p= data.designation
+            .profile-details
+                p Id: #{data.employeeId}
+                p Age: #{data.age}
+                p Gender: #{data.gender}
+                p Email: #{data.email}
+                p Marital Status: #{data.maritalStatus}
+                p Branch: #{data.branch}
+            .profile-actions
+                button.button.delete
+                    a(href=`/update/${data.employeeId}`) Update

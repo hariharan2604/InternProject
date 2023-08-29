@@ -39,6 +39,10 @@ User.init(
       type: DataTypes.STRING,
     },
   },
-  { sequelize, modelName: "User" }
+  {
+    sequelize,
+    modelName: "User",
+  }
 );
+
 module.exports = User;

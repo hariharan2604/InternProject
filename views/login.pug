@@ -1,0 +1,22 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        title Login
+        link(href="/stylesheets/login.css", rel="stylesheet", type="text/css")
+        link(rel="preconnect", href="https://fonts.googleapis.com")
+        link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
+    body
+        .container
+            #logins
+                form#logform(action="/login", method="post")
+                    label(for="userName") Username:
+                    input(name="userName", type="text")
+                    label(for="password") Password:
+                    input(name="password", type="password")
+                    button.signin(type="submit") Login
+                p New User?
+                    a(href='/register') Signup.
+                if (flag)
+                    p.error #{flag}

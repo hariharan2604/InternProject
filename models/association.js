@@ -1,12 +1,39 @@
-const User = require("./user");
-const Credential = require("./credential");
-const sequelize = require("../db/connection");
+const { DataTypes } = require("sequelize");
 
-async function connect() {
-  // User.hasOne(Credential, { foreignKey: "employeeId" });
-  User.hasOne(Credential, { foreignKey: "employeeId" });
-  Credential.belongsTo(User, { foreignKey: "employeeId" });
-  await sequelize.sync({ alter: true });
-}
+module.exports = (models) => {
+  const { User, Credential, Image } = models;
 
-module.exports = connect();
+  // Define associations
+  User.hasOne(Credential, {
+    onDelete: "CASCADE",
+    foreignKey: {
+      name: "employeeId",
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+  });
+  User.hasOne(Image, {
+    onDelete: "CASCADE",
+    foreignKey: {
+      name: "employeeId",
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+  });
+  Credential.belongsTo(User, {
+    onDelete: "CASCADE",
+    foreignKey: {
+      name: "employeeId",
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+  });
+  Image.belongsTo(User, {
+    onDelete: "CASCADE",
+    foreignKey: {
+      name: "employeeId",
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+  });
+};

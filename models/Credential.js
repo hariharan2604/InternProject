@@ -5,6 +5,11 @@ class Credential extends Model {}
 
 Credential.init(
   {
+    employeeId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      primaryKey: true,
+    },
     userName: {
       type: DataTypes.STRING,
       unique: true,
@@ -14,9 +19,13 @@ Credential.init(
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
-  { sequelize, modelName: "Credential" }
+  {
+    sequelize,
+    modelName: "Credential",
+  }
 );
 
 module.exports = Credential;

@@ -1,7 +1,7 @@
 // controllers/UserController.js
-const User = require("../models/user");
-const Credential = require("../models/credential");
-require("../models/association");
+const User = require("../models/User");
+const Credential = require("../models/Credential");
+const Image = require("../models/Image");
 const { Op } = require("sequelize");
 const sequelize = require("../db/connection");
 const { all } = require("express/lib/application");
@@ -9,7 +9,7 @@ const { all } = require("express/lib/application");
 class UserController {
   async createUser(req, res) {
     try {
-      const userDetail = await User.create({
+      const details = {
         employeeName: req.body.employeeName,
         mobileNumber: req.body.mobileNumber,
         age: req.body.age,
@@ -18,32 +18,30 @@ class UserController {
         designation: req.body.designation,
         maritalStatus: req.body.maritalStatus,
         branch: req.body.branch,
-      });
-
+      };
+      const userDetail = await User.create(details);
       await Credential.create({
+        employeeId: userDetail.employeeId,
         userName: req.body.userName,
         password: req.body.password,
         isAdmin: req.body.isAdmin,
-        employeeId: userDetail.employeeId,
       });
-
-      res.status(201).json(
-        await User.findOne({
-          where: {
-            [Op.eq]: {
-              employeeId: userDetail.employeeId,
-            },
-          },
-          include: [{ model: Credential }],
-        })
-      );
+      const userWithCredential = await User.findOne({
+        where: {
+          employeeId: userDetail.employeeId,
+        },
+        include: [Credential],
+      });
+      res.status(201).json(userWithCredential);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      console.log(error.stack);
+      res.json({ message: "Internal Server Error" });
     }
   }
 
   async authUser(req, res) {
     try {
+      console.log(req);
       const userDetail = await Credential.findOne({
         where: {
           [Op.and]: {
@@ -51,64 +49,81 @@ class UserController {
             password: req.body.password,
           },
         },
-        include: [{ model: Credential, attributes: ["isAdmin"] }],
+        include: [User],
       });
-      if (!userDetail)
-        res.send(404).json({ message: "Incorrect Username Or Password" });
-      res.send(200).json(userDetail);
+      if (!userDetail) res.json({ message: "Incorrect Username Or Password" });
+      else res.status(200).json(userDetail);
     } catch (error) {
-      console.log(error.stack);
-      res.send(500).json({ message: "Internal Server Error" });
+      console.log(error);
+      res.json({ message: "Internal Server Error" });
     }
   }
 
   async getUsers(req, res) {
     try {
       const allUsers = await User.findAll();
-      if (!allUsers) res.send(404).json({ message: "No Employees" });
-      res.send(200).json(allUsers);
+      if (!allUsers) res.json({ message: "No Employees" });
+      res.status(200).json(allUsers);
     } catch (error) {
-      res.send(500).json({ message: "Internal Server Error" });
+      res.json({ message: "Internal Server Error" });
+    }
+  }
+
+  async getUserType(req, res) {
+    try {
+      const id = req.params.id;
+      const isAdmin = await Credential.findOne({
+        where: {
+          employeeId: id,
+        },
+        attributes: ["isAdmin"],
+      });
+      res.status(200).json(isAdmin);
+    } catch (error) {
+      console.log(error.stack);
+      res.json({ message: "Internal Server Error" });
     }
   }
 
   async getUsersByBranch(req, res) {
     try {
-      const usersByBranch = await User.findAll({
-        where: {
-          [Op.eq]: {
+      let user;
+      if (req.params.branch === "All") {
+        user = await User.findAll();
+      } else {
+        user = await User.findAll({
+          where: {
             branch: req.params.branch,
           },
-        },
-      });
-      if (!usersByBranch) {
-        res.send(404).json({ message: "No Employee" });
+        });
       }
-      res.send(200).json(usersByBranch);
+      if (user.length === 0) {
+        res.json({ message: `No Employee at ${req.params.branch}` });
+      } else res.status(200).json(user);
     } catch (error) {
       console.log(error.stack);
-      res.send(500).json({ message: "Internal Server Error" });
+      res.json({ message: "Internal Server Error" });
     }
   }
 
   async getUserById(req, res) {
     try {
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(req.params.id, { include: Credential });
       if (!user) {
-        res.status(404).json({ message: "Employee not found" });
+        res.json({ message: "Employee not found" });
       } else {
         res.status(200).json(user);
       }
     } catch (error) {
       console.log(error.stack);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.json({ message: "Internal Server Error" });
     }
   }
 
   async updateUser(req, res) {
     try {
-      const userDetail = await User.findOne(req.params.id);
-      const [affectCount, updatedRows] = await userDetail.update({
+      const userDetail = await User.findByPk(req.params.id);
+      const updatedUser = await userDetail.update({
         employeeName: req.body.employeeName,
         mobileNumber: req.body.mobileNumber,
         age: req.body.age,
@@ -118,43 +133,34 @@ class UserController {
         maritalStatus: req.body.maritalStatus,
         branch: req.body.branch,
       });
-      if (!affectCount)
-        res.send(500).json({ message: "Error in Updating Employee" });
-      res.send(200).json({ message: updatedRows });
+      if (!updatedUser) res.json({ message: "Error in Updating Employee" });
+      else res.status(200).json(updatedUser);
     } catch (error) {
       console.log(error.stack);
-      res.send(500).json({ message: "Internal Server Error" });
+      res.json({ message: "Internal Server Error" });
     }
   }
 
   async deleteUserWithCredential(req, res) {
-    const { employeeId } = req.params;
-
-    const transaction = await sequelize.transaction();
-
     try {
-      const user = await User.findByPk(employeeId, {
-        include: Credential,
+      const userIdToDelete = req.params.id; // Get the user ID to delete
+      const deletedUser = await User.destroy({
+        where: { employeeId: userIdToDelete },
+        cascade: true,
       });
-
-      if (!user) {
-        res.status(404).json({ message: "Employee not found" });
+      console.log(deletedUser);
+      if (deletedUser) {
+        return res.status(200).json({
+          success: "User and associated Credential deleted successfully",
+        });
+      } else {
+        return res.json({ message: "User not found" });
       }
-
-      if (user.Credential) {
-        await user.Credential.destroy({ transaction });
-      }
-
-      await user.destroy({ transaction });
-
-      await transaction.commit();
-      res
-        .status(200)
-        .json({ message: "Employee and associated credential deleted" });
     } catch (error) {
-      console.error("Error deleting Employee:", error);
-      await transaction.rollback();
-      res.status(500).json({ message: "Internal server error" });
+      return res.json({
+        message: "An error occurred during delete",
+        details: error.message,
+      });
     }
   }
 }
