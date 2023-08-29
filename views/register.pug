@@ -10,7 +10,7 @@ html(lang="en")
     body
         .container
             #register
-                form#regform(action="/register", method="post")
+                form#regform(action="/register", method="post", enctype="multipart/form-data")
                     .form-row
                         h1(style="text-align: center") Sign Up
                     .form-row
@@ -55,6 +55,9 @@ html(lang="en")
                                 option(value="Mylapore") Mylapore
                                 option(value="T Nagar") T Nagar
                                 option(value="Alwarpet") Alwarpet
+                    .form-row
+                        .form-column
+                            input(type="file" id="image" name="image" accept="image/*" required)
                     .form-row
                         .form-column
                             label(for="isAdmin") Admin:

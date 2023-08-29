@@ -2,6 +2,18 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const { response } = require("express");
+const multer = require("multer");
+const path = require("path");
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, "../public/uploads"),
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+const upload = multer({ storage });
 router.get(["/login", "/"], (req, res, next) => {
   res.render("login");
 });
@@ -35,7 +47,13 @@ router.post("/login", async (req, res, next) => {
       );
       const name = req.session.name;
       const data = userData.data;
-      res.render("profile", { data, name });
+      const image = await axios.get(
+        `http://localhost:4000/users/image/${data.employeeId}`
+      );
+      console.log(image.data);
+      const profileImage = image.data.filePath;
+      console.log(profileImage);
+      res.render("profile", { data, name, profileImage });
     }
   }
 });
@@ -51,7 +69,6 @@ router.post("/update", async (req, res, next) => {
     `http://localhost:4000/users/update/${updatedDetails.employeeId}`,
     updatedDetails
   );
-  // console.log(response);
   if (response.data.message) {
     res.render("error");
   } else {
@@ -65,7 +82,13 @@ router.post("/update", async (req, res, next) => {
       );
       const data = userData.data;
       const name = userData.data.employeeName;
-      res.render("profile", { data, name });
+      const image = await axios.get(
+        `http://localhost:4000/users/image/${data.employeeId}`
+      );
+      console.log(image.data);
+      const profileImage = image.data.filePath;
+      console.log(profileImage);
+      res.render("profile", { data, name, profileImage });
     }
   }
 });
@@ -89,10 +112,11 @@ router.post("/filter", async (req, res, next) => {
     res.render("admin", { data: userByBranch.data, name: req.session.data });
   else res.render("error");
 });
-router.post("/register", async (req, res, next) => {
+router.post("/register", upload.single("image"), async (req, res, next) => {
+  const formData = req.body;
   const userDetails = await axios.post(
     "http://localhost:4000/users/register",
-    req.body,
+    formData,
     {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -103,7 +127,24 @@ router.post("/register", async (req, res, next) => {
   if (userDetails.data.message) {
     res.render("register", userDetails.data);
   } else {
-    res.render("login", { flag: "Please Login to Continue" });
+    const { filename, path: filepath } = req.file;
+    const imageUpload = await axios.post(
+      `http://localhost:4000/users/upload/image/${userDetails.data.employeeId}`,
+      {
+        filename: filename,
+        path: `/uploads/${filename}`,
+      },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+    if (imageUpload.data.message) {
+      res.render("register", imageUpload.data);
+    } else {
+      res.render("login", { flag: "Please Login to Continue" });
+    }
   }
 });
 

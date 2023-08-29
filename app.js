@@ -30,7 +30,6 @@ const userController = new UserController();
 
 app.use("/users", require("./routes/crud"));
 app.use("/", require("./routes/nav"));
-
 const PORT = process.env.PORT || 3000;
 sequelize
   .sync()

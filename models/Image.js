@@ -5,16 +5,17 @@ class Image extends Model {}
 
 Image.init(
   {
-    filename: {
+    employeeId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      primaryKey: true,
+    },
+    fileName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    mimetype: {
+    filePath: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    data: {
-      type: DataTypes.BLOB("long"), // Use BLOB type for binary data
       allowNull: false,
     },
   },

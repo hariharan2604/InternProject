@@ -2,6 +2,9 @@
 const User = require("../models/User");
 const Credential = require("../models/Credential");
 const Image = require("../models/Image");
+const multer = require("multer");
+const storage = multer.memoryStorage(); // Store files in memory as buffers
+const upload = multer({ storage: storage });
 const { Op } = require("sequelize");
 const sequelize = require("../db/connection");
 const { all } = require("express/lib/application");
@@ -9,6 +12,7 @@ const { all } = require("express/lib/application");
 class UserController {
   async createUser(req, res) {
     try {
+      console.log(req.body);
       const details = {
         employeeName: req.body.employeeName,
         mobileNumber: req.body.mobileNumber,
@@ -36,6 +40,43 @@ class UserController {
     } catch (error) {
       console.log(error.stack);
       res.json({ message: "Internal Server Error" });
+    }
+  }
+
+  async uploadImage(req, res) {
+    try {
+      const imgFlag = await Image.create({
+        employeeId: req.params.id,
+        fileName: req.body.filename,
+        filePath: req.body.path,
+      });
+      // res.send(imgFlag);
+      if (!imgFlag) {
+        res.json({ message: "Error in uploading image" });
+      }
+      res.status(200).json({ success: "Uploaded successfully" });
+    } catch (error) {
+      console.log(error.stack);
+      res.json({ message: "Internal Server Error" });
+    }
+  }
+
+  async getImage(req, res) {
+    try {
+      const id = req.params.id;
+      const file = await Image.findByPk(id, {
+        attributes: ["filePath"],
+      });
+      console.log("The file", file);
+      // res.send("Hello");
+      if (!file) {
+        res.json({ message: "No Image found" });
+      } else {
+        res.status(200).json(file);
+      }
+    } catch (error) {
+      console.log(error.stack);
+      res.json({ error: "Internal Server Error" });
     }
   }
 

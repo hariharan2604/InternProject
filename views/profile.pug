@@ -10,9 +10,9 @@ html(lang="en")
     body
         .profile-card
             .profile-header
-                //img.profile-image(src=profileImage, alt="Profile Image")
+                img.profile-image(src=profileImage, alt=data.employeeName)
                 h2= name
-                p= data.designation
+                h4= data.designation
             .profile-details
                 p Id: #{data.employeeId}
                 p Age: #{data.age}
