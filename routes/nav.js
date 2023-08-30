@@ -19,7 +19,7 @@ router.get("/admin/profile", async (req, res, next) => {
     `http://localhost:4000/users/image/${data.employeeId}`
   );
   const profileImage = image.data.filePath;
-  res.render("profile", { data, name, profileImage });
+  res.render("profile", { data, name, profileImage, isAdmin: true });
 });
 
 router.get("/dashboard", async (req, res, next) => {
