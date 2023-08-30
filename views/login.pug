@@ -1,22 +1,48 @@
 doctype html
-html(lang="en")
+html
     head
         meta(charset="UTF-8")
-        title Login
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Login Page
         link(href="/stylesheets/login.css", rel="stylesheet", type="text/css")
         link(rel="preconnect", href="https://fonts.googleapis.com")
         link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
         link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
-    body
-        .container
-            #logins
-                form#logform(action="/login", method="post")
-                    label(for="userName") Username:
-                    input(name="userName", type="text")
-                    label(for="password") Password:
-                    input(name="password", type="password")
-                    button.signin(type="submit") Login
-                p New User?
+        link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css", rel="stylesheet")
+    vbody
+        .login-container
+            .login-header
+                h1 Employee Database
+                p Welcome to our secure employee database
+            form.login-form(action="/login", method="post")
+                .input-group
+                    i.fas.fa-user
+                    input(type="text", name="userName", placeholder="Username", required)
+                .input-group
+                    i.fas.fa-lock
+                    input(type="password", name="password", id="password", placeholder="Password", required)
+                    div.password-toggle
+                        i.fas.fa-eye
+                button.signin(type="submit") Login
+                p.new-user
+                    | New User?
                     a(href='/register') Signup.
                 if (flag)
                     p.error #{flag}
+
+        script(src="https://code.jquery.com/jquery-3.6.0.min.js") // Include jQuery library
+        script.
+            $(document).ready(function () {
+                $('.password-toggle').click(function () {
+                    const passwordInput = $('#password');
+                    const passwordIcon = $(this).find('i');
+
+                    if (passwordInput.attr('type') === 'password') {
+                        passwordInput.attr('type', 'text');
+                        passwordIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+                    } else {
+                        passwordInput.attr('type', 'password');
+                        passwordIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+                    }
+                });
+            });
