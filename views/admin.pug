@@ -4,6 +4,7 @@ html(lang="en")
         meta(charset="UTF-8")
         title Details
         link(href="/stylesheets/admin.css", rel="stylesheet")
+        link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css", rel="stylesheet")
         link(rel="preconnect", href="https://fonts.googleapis.com")
         link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
         link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
@@ -18,7 +19,20 @@ html(lang="en")
                         option(value="T Nagar") T Nagar
                         option(value="Alwarpet") Alwarpet
                     button#filter(type="submit") Submit
-                p Welcome #{name}.
+                .options.dropdown
+                    button.dropbtn
+                        p.fa.fa-user-circle.fa-3x
+                        i.fas.fa-caret-down
+                    .dropdown-content#options-dropdown
+                        a(href=`/admin/profile/`)
+                            p.icon Profile
+                            i.fas.fa-user.icon
+                        a(href=`/update/${id}`)
+                            p.icon Update
+                            i.fas.fa-edit.icon
+                        a(href=`/logout`)
+                            p.icon Logout
+                            i.fas.fa-sign-out-alt.icon
             if data.message
                 h1 #{data.message}
             else
@@ -51,3 +65,19 @@ html(lang="en")
 
                 if data.error
                     h6 Error in updating user.
+
+    script.
+        const dropdownButton = document.querySelector(".dropbtn");
+        const dropdownContent = document.querySelector("#options-dropdown");
+
+        dropdownButton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        });
+
+        // Close dropdown when clicking outside
+        window.addEventListener("click", function (event) {
+            if (!dropdownButton.contains(event.target)) {
+                dropdownContent.style.display = "none";
+            }
+        });

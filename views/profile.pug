@@ -8,6 +8,7 @@ html(lang="en")
         link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
         link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
     body
+
         .profile-card
             .profile-header
                 img.profile-image(src=profileImage, alt=data.employeeName)
@@ -23,3 +24,7 @@ html(lang="en")
             .profile-actions
                 button.button.delete
                     a(href=`/update/${data.employeeId}`) Update
+                button.button.delete
+                    a(href=`/delete/${data.employeeId}`) Delete
+                button.button.logout
+                    a(href="/logout") Logout

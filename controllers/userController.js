@@ -8,6 +8,9 @@ const upload = multer({ storage: storage });
 const { Op } = require("sequelize");
 const sequelize = require("../db/connection");
 const { all } = require("express/lib/application");
+const { join } = require("path");
+const { unlink } = require("fs");
+const axios = require("axios");
 
 class UserController {
   async createUser(req, res) {
@@ -102,7 +105,16 @@ class UserController {
 
   async getUsers(req, res) {
     try {
-      const allUsers = await User.findAll();
+      const allUsers = await User.findAll({
+        include: [
+          {
+            model: Credential,
+            where: {
+              isAdmin: false,
+            },
+          },
+        ],
+      });
       if (!allUsers) res.json({ message: "No Employees" });
       res.status(200).json(allUsers);
     } catch (error) {
@@ -128,19 +140,38 @@ class UserController {
 
   async getUsersByBranch(req, res) {
     try {
-      let user;
+      let userSelect;
       if (req.params.branch === "All") {
-        user = await User.findAll();
+        userSelect = await User.findAll({
+          include: [
+            {
+              model: Credential,
+              where: {
+                isAdmin: false,
+              },
+            },
+          ],
+        });
       } else {
-        user = await User.findAll({
+        userSelect = await User.findAll({
           where: {
             branch: req.params.branch,
           },
+          include: [
+            {
+              model: Credential,
+              where: {
+                isAdmin: false,
+              },
+            },
+          ],
         });
       }
-      if (user.length === 0) {
-        res.json({ message: `No Employee at ${req.params.branch}` });
-      } else res.status(200).json(user);
+      if (userSelect.length === 0) {
+        res.json({ message: `No Employees.` });
+      } else {
+        res.status(200).json(userSelect);
+      }
     } catch (error) {
       console.log(error.stack);
       res.json({ message: "Internal Server Error" });
@@ -185,12 +216,28 @@ class UserController {
   async deleteUserWithCredential(req, res) {
     try {
       const userIdToDelete = req.params.id; // Get the user ID to delete
+      const filename = await Image.findByPk(userIdToDelete);
       const deletedUser = await User.destroy({
         where: { employeeId: userIdToDelete },
         cascade: true,
       });
       console.log(deletedUser);
       if (deletedUser) {
+        const filePath = join(
+          __dirname,
+          "../public/uploads",
+          filename.fileName
+        );
+
+        // Delete the file from the filesystem
+        unlink(filePath, (err) => {
+          if (err) {
+            console.error("Error deleting file:", err);
+            // Handle the error as needed
+          } else {
+            console.log("File deleted successfully");
+          }
+        });
         return res.status(200).json({
           success: "User and associated Credential deleted successfully",
         });

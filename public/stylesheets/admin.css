@@ -2,7 +2,7 @@
 body, h1, h2, h3, p, ul, li {
     margin: 0;
     padding: 0;
-    font-family: 'Montserrat', sans-serif; /* Apply font family to all text */
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* Apply basic styling to the page */
@@ -23,6 +23,7 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    position: relative;
 }
 
 form {
@@ -87,3 +88,63 @@ a {
     text-decoration: none;
     color: inherit;
 }
+
+/* Style the dropdown container */
+.options.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: auto; /* Move to the end of the header */
+}
+
+/* Style the dropdown button */
+.dropbtn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.dropbtn i {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.icon {
+    margin-right: 5px;
+    display: inline;
+}
+
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    z-index: 1;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    top: 100%; /* Position below the button */
+    right: 0; /* Align with the right edge */
+    transform: translateY(5px); /* Add a small gap */
+}
+
+/* Style the dropdown content links */
+.dropdown-content a {
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* ... Rest of the CSS ... */
