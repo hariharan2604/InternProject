@@ -2,29 +2,38 @@ doctype html
 html(lang="en")
     head
         meta(charset="UTF-8")
-        title Details
+        title Professional Profile
         link(href="/stylesheets/profile.css", rel="stylesheet")
         link(rel="preconnect", href="https://fonts.googleapis.com")
         link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
-        link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
+        link(href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap", rel="stylesheet")
     body
-
         .profile-card
-            .profile-header
-                img.profile-image(src=profileImage, alt=data.employeeName)
-                h2= name
-                h4= data.designation
+            img.profile-image(src=profileImage, alt=data.employeeName)
+            h2.profile-name= name
+            h4.profile-designation= data.designation
             .profile-details
-                p Id: #{data.employeeId}
-                p Age: #{data.age}
-                p Gender: #{data.gender}
-                p Email: #{data.email}
-                p Marital Status: #{data.maritalStatus}
-                p Branch: #{data.branch}
+                ul
+                    li
+                        span.detail-label Id:
+                        span.detail-value= data.employeeId
+                    li
+                        span.detail-label Age:
+                        span.detail-value= data.age
+                    li
+                        span.detail-label Gender:
+                        span.detail-value= data.gender
+                    li
+                        span.detail-label Email:
+                        span.detail-value= data.email
+                    li
+                        span.detail-label Marital Status:
+                        span.detail-value= data.maritalStatus
+                    li
+                        span.detail-label Branch:
+                        span.detail-value= data.branch
             .profile-actions
-                button.button.delete
-                    a(href=`/update/${data.employeeId}`) Update
-                button.button.delete
-                    a(href=`/delete/${data.employeeId}`) Delete
-                button.button.logout
-                    a(href="/logout") Logout
+                a(href=`/update/${data.employeeId}`)#update Update
+                if(isAdmin)
+                    a(href=`/delete/${data.employeeId}`)#delete Delete
+                a(href="/logout")#logout Logout
