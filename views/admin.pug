@@ -19,6 +19,7 @@ html(lang="en")
                         option(value="T Nagar") T Nagar
                         option(value="Alwarpet") Alwarpet
                     button#filter(type="submit") Submit
+                h4(style="margin-left:50%") Welcome Mr.#{name}
                 .options.dropdown
                     button.dropbtn
                         p.fa.fa-user-circle.fa-3x
@@ -27,14 +28,11 @@ html(lang="en")
                         a(href=`/admin/profile/`)
                             p.icon Profile
                             i.fas.fa-user.icon
-                        a(href=`/update/${id}`)
-                            p.icon Update
-                            i.fas.fa-edit.icon
                         a(href=`/logout`)
                             p.icon Logout
                             i.fas.fa-sign-out-alt.icon
             if data.message
-                h1 #{data.message}
+                h3(style="text-align:center") #{data.message}
             else
                 table#main
                     tr
@@ -75,7 +73,6 @@ html(lang="en")
             dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
         });
 
-        // Close dropdown when clicking outside
         window.addEventListener("click", function (event) {
             if (!dropdownButton.contains(event.target)) {
                 dropdownContent.style.display = "none";
