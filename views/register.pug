@@ -57,7 +57,10 @@ html(lang="en")
                                 option(value="Alwarpet") Alwarpet
                     .form-row
                         .form-column
-                            input(type="file" id="image" name="image" accept="image/*" required)
+                            label.upload-label(for="image") Profile Image
+                            .upload-btn(for="image") Choose Image
+                            input(type="file", id="image", name="image", accept="image/*")
+
                     .form-row
                         .form-column
                             label(for="isAdmin") Admin:
@@ -66,7 +69,7 @@ html(lang="en")
                                     input(type="radio", name="isAdmin", value="1")
                                     | Yes
                                 label.radio-option
-                                    input(type="radio", name="isAdmin", value="0")
+                                    input(type="radio", name="isAdmin", value="0", checked)
                                     | No
 
                     input(type="submit", class="signin", value="Register")

@@ -13,18 +13,17 @@ body {
 
 .container {
     display: flex;
-    flex-direction: column; /* Change flex direction to column */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Use min-height instead of height */
+    min-height: 100vh;
     padding: 20px;
     box-sizing: border-box;
-    overflow: visible; /* Reset overflow property for the container */
 }
 
 #register {
-    width: 100%; /* Full width on small screens */
-    max-width: 500px; /* Limit width on larger screens */
+    width: 100%;
+    max-width: 500px;
     padding: 20px;
     background-color: #fff;
     border-radius: 5px;
@@ -33,13 +32,13 @@ body {
 
 .form-row {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 15px;
 }
 
 .form-column {
-    flex-basis: calc(50% - 10px); /* Adjust the width and spacing as needed */
+    flex-basis: calc(50% - 10px);
 }
 
 #regform label {
@@ -54,21 +53,22 @@ body {
 #regform input[type="number"],
 #regform input[type="email"],
 #regform select,
-#regform input[type="checkbox"] {
+#regform input[type="checkbox"],
+#regform input[type="file"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 14px;
     display: block;
-    margin-bottom: 10px; /* Add margin to separate fields */
+    margin-bottom: 10px;
 }
 
 #regform select {
     width: 100%;
     height: 40px;
     appearance: none;
-    background: url('../images/down-arrow-svgrepo-com.svg') no-repeat right center; /* Keep background position as right center */
+    background: url('../images/down-arrow-svgrepo-com.svg') no-repeat right center;
     background-position-x: 95%;
     background-size: 20px;
     border: 1px solid #ccc;
@@ -82,6 +82,26 @@ body {
 #regform select:focus {
     border-color: #5a8aef;
     box-shadow: 0 0 4px rgba(90, 138, 239, 0.5);
+}
+
+#regform .upload-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#regform .upload-btn {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+#regform .upload-btn:hover {
+    background-color: #555;
 }
 
 #regform .signin {
@@ -106,7 +126,6 @@ body {
     font-weight: bold;
 }
 
-/* Style the radio button options */
 .radio-options {
     display: inline-block;
     margin-right: 10px;
