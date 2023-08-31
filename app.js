@@ -17,6 +17,7 @@ app.use(
     secret: "Web Cookie",
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 900000 },
   })
 );
 app.use(express.static(path.join(__dirname, "public")));

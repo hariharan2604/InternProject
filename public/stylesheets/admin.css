@@ -1,155 +1,244 @@
-h1, h2, h3, p, ul, li {
+/* Reset some default styles */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
 
-/* Apply basic styling to the page */
+/* Set a background color for the body */
 body {
-    background-color: #f2f2f2;
-    color: #333;
     font-family: 'Montserrat', sans-serif;
+    background-color: #f6f9fc;
+    margin: 0;
+    padding: 0;
 }
 
-#display {
-    border-radius: 20px;
-    margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    min-height: 80vh;
+/* Container for the content */
+.container {
+    background-color: #f6f9fc; /* Background color for the container */
+    max-width: 1200px; /* Maximum width for the container */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 2rem; /* Padding around the content within the container */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    border-radius: 8px; /* Rounded corners for the container */
 }
 
+/* Header styles */
 #header {
-    background-color: #007bff;
-    color: #fff;
-    padding: 20px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
-    position: relative;
-    border-radius: 30px;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
 }
 
-form {
+#header p {
+    justify-content: flex-start;
+}
+
+/* Logo styles */
+.logo img {
+    max-width: 75px;
+    height: auto;
+    border-radius: 50%;
+}
+
+
+/* Header right styles */
+.header-right {
     display: flex;
     align-items: center;
+}
+
+/* Form styles */
+#filter-form {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    padding: 0.5rem; /* Added padding */
 }
 
 label {
-    margin-right: 10px;
+    display: flex;
+    align-items: center;
     font-weight: bold;
+    margin-right: 0.5rem;
+    color: #555;
+}
+
+/* Select styles */
+#branch {
+    /*border: 1px solid #ccc;*/
+    border-radius: 4px 4px 0 0;
+    font-size: 16px;
+    color: #555;
+    background-color: inherit;
+    width: 150px;
+    appearance: none;
+    margin-left: 0.5rem;
+    /* Added padding for dropdown icon */
+    padding: 0.5rem 30px 0.5rem 0.5rem;
+}
+
+/* Button styles */
+#filter {
+    display: none;
+    background-color: #3498db;
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 0.5rem; /* Added margin for spacing */
+}
+
+/* User dropdown styles */
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 1rem; /* Added margin for spacing */
+}
+
+.dropbtn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.dropbtn i {
+    margin: 5px;
+}
+
+.dropbtn:hover {
+    color: #333;
+}
+
+/* Dropdown content styles */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    right: 0;
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.dropdown-content i {
+    display: inline;
+    margin-right: 5px;
+}
+
+.dropdown-content a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Style label, select, and button differently */
+#filter-form label {
+    color: #3498db;
+    font-weight: bold;
+}
+
+#filter-form label i {
+    margin-right: 5px;
+}
+
+#filter-form select {
+    border: none;
+    border-bottom: 1px solid #3498db;
+}
+
+#filter-form button {
+    background-color: #2ecc71;
     color: #fff;
 }
 
-select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bolder;
+/* Message box styles */
+.message-box, .error-box {
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 1.5rem;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
-button#filter {
-    background-color: #fff;
-    color: #007bff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-left: 10px;
+.message-box i, .error-box i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #4caf50;
 }
 
-table#main {
+.error-box i {
+    color: #e74c3c;
+}
+
+/* Table styles */
+#main {
     width: 100%;
     border-collapse: collapse;
 }
 
-th, td {
-    padding: 10px;
+#main th, #main td {
+    padding: 0.5rem;
     text-align: center;
-    border-bottom: 1px solid #ccc;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    border-bottom: 1px solid #ddd;
 }
 
-th {
-    background-color: #f2f2f2;
+#main th {
+    text-align: center;
 }
 
-button.delete {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 5px;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Style the dropdown container */
-.options.dropdown {
-    position: relative;
-    display: inline-block;
-    margin-left: auto; /* Move to the end of the header */
-}
-
-/* Style the dropdown button */
-.dropbtn {
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-}
-
-.dropbtn i {
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.icon {
-    margin-right: 5px;
-    display: inline;
-}
-
-/* Style the dropdown content (hidden by default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    z-index: 1;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    top: 100%; /* Position below the button */
-    right: 0; /* Align with the right edge */
-    transform: translateY(5px); /* Add a small gap */
-}
-
-/* Style the dropdown content links */
-.dropdown-content a {
-    color: black;
-    padding: 10px 20px;
-    text-decoration: none;
+/* Update and delete link styles */
+a.update, a.delete {
     display: block;
+    margin: 0.3rem 0.3rem;
+    padding: 0.3rem 0.6rem;
+    font-weight: bold;
+    /*color: #3498db;*/
+    text-decoration: none;
+    /*border: 1px solid #3498db;*/
+    border-radius: 4px;
+    transition: color 0.3s, background-color 0.3s;
 }
 
-/* Change color on hover */
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
+a.delete {
+    background-color: #e74c3c;
+    color: white;
 }
 
+a.update {
+    background-color: #3498db;
+    color: white;
+}
 
-/* ... Rest of the CSS ... */
+a.update:hover, a.delete:hover {
+    color: #718ea0;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Error box styles */
+.error-box {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 4px;
+}
+
+/* Customize the rest of your styles as needed */
+
+/* Other styles below */

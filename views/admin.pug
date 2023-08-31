@@ -9,72 +9,61 @@ html(lang="en")
         link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
         link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
     body
-        #display
-            #header
-                form(action="/filter", method="post")
-                    label(for="branch") Branch:
-                    select#branch(name="branch")
-                        option(value="All") All
-                        option(value="Mylapore") Mylapore
-                        option(value="T Nagar") T Nagar
-                        option(value="Alwarpet") Alwarpet
-                    button#filter(type="submit") Submit
-                h4(style="margin-left:50%") Welcome Mr.#{name}
-                .options.dropdown
-                    button.dropbtn
-                        p.fa.fa-user-circle.fa-3x
-                        i.fas.fa-caret-down
-                    .dropdown-content#options-dropdown
-                        a(href=`/admin/profile/`)
-                            p.icon Profile
-                            i.fas.fa-user.icon
-                        a(href=`/logout`)
-                            p.icon Logout
-                            i.fas.fa-sign-out-alt.icon
-            if data.message
-                h3(style="text-align:center") #{data.message}
-            else
-                table#main
-                    tr
-                        th Name
-                        th Mobile
-                        th Age
-                        th Gender
-                        th Email
-                        th Designation
-                        th Marital Status
-                        th Branch
-                        th Operations
-                    each item in data
-                        tr
-                            td= item.employeeName
-                            td= item.mobileNumber
-                            td= item.age
-                            td= item.gender
-                            td= item.email
-                            td= item.designation
-                            td= item.maritalStatus
-                            td= item.branch
-                            td
-                                button.delete
-                                    a(href=`/update/${item.employeeId}`) Update
-                                button.delete
-                                    a(href=`/delete/${item.employeeId}`) Delete
-
-                if data.error
-                    h6 Error in updating user.
-
-    script.
-        const dropdownButton = document.querySelector(".dropbtn");
-        const dropdownContent = document.querySelector("#options-dropdown");
-
-        dropdownButton.addEventListener("click", function (event) {
-            event.stopPropagation();
-            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-        });
-
-        window.addEventListener("click", function (event) {
-            if (!dropdownButton.contains(event.target)) {
-                dropdownContent.style.display = "none";
-            }
-        });
+        .container
+            header#header
+                .logo
+                    img(src="/images/logo.jpg", alt="Logo")
+                nav.header-right
+                    form#filter-form(action="/filter", method="post")
+                        label(for="branch")
+                            i.fas.fa-map-marker-alt
+                        select#branch(name="branch")
+                            option(value="All") All
+                            option(value="Mylapore") Mylapore
+                            option(value="T Nagar") T Nagar
+                            option(value="Alwarpet") Alwarpet
+                        button#filter(type="submit")
+                            i.fas.fa-search
+                    .user-dropdown
+                        button.dropbtn
+                            i.fas.fa-user-circle.fa-2x
+                            i.fas.fa-caret-down.fa-2x
+                        .dropdown-content#options-dropdown
+                            a(href="/admin/profile/")
+                                i.fas.fa-user.icon
+                                span Profile
+                            a(href="/logout")
+                                i.fas.fa-sign-out-alt.icon
+                                span Logout
+            .content
+                if data.message
+                    .error-box
+                        p #{data.message}
+                else
+                    table#main
+                        thead
+                            tr
+                                th Name
+                                th Mobile
+                                th Age
+                                th Gender
+                                th Email
+                                th Designation
+                                th Marital Status
+                                th Branch
+                                th Operations
+                        tbody
+                            each item in data
+                                tr
+                                    td= item.employeeName
+                                    td= item.mobileNumber
+                                    td= item.age
+                                    td= item.gender
+                                    td= item.email
+                                    td= item.designation
+                                    td= item.maritalStatus
+                                    td= item.branch
+                                    td
+                                        a.update(href=`/update/${item.employeeId}`) Update
+                                        a.delete(href=`/delete/${item.employeeId}`) Delete
+            script(src="/javascripts/admin.js")
