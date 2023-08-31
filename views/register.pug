@@ -9,70 +9,68 @@ html(lang="en")
         link(href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@600&display=swap", rel="stylesheet")
     body
         .container
-            #register
-                form#regform(action="/register", method="post", enctype="multipart/form-data")
+            .register-box
+                h1.form-header Register
+                form#regform(action="/register", method="post", enctype="multipart/form-data", autocomplete="off")
                     .form-row
-                        h1(style="text-align: center") Sign Up
-                    .form-row
-                        .form-column
+                        .form-group
                             label(for="userName") Username
-                            input(name="userName", type="text")
-                        .form-column
+                            input.form-input(name="userName", type="text")
+                        .form-group
+                            label(for="email") Email
+                            input.form-input(name="email", type="email")
+                    .form-row
+                        .form-group
                             label(for="password") Password
-                            input(required, name="password", type="password")
-                    .form-row
-                        .form-column
-                            label(for="employeeName") Name
-                            input(name="employeeName", type="text")
-                        .form-column
+                            input.form-input(required, name="password", type="password")
+                        .form-group
                             label(for="mobileNumber") Mobile
-                            input(name="mobileNumber", type="text")
+                            input.form-input(name="mobileNumber", type="number")
                     .form-row
-                        .form-column
+                        .form-group
+                            label(for="employeeName") Name
+                            input.form-input(name="employeeName", type="text")
+                        .form-group
                             label(for="age") Age
-                            input(name="age", type="number")
-                        .form-column
+                            input.form-input(name="age", type="number")
+                    .form-row
+                        .form-group
                             label(for="gender") Gender
-                            select(id="gender", name="gender")
+                            select.form-select(name="gender")
                                 option(value="Male") Male
                                 option(value="Female") Female
-                    .form-row
-                        .form-column
-                            label(for="email") Email
-                            input(name="email", type="email")
-                        .form-column
+                        .form-group
                             label(for="designation") Designation
-                            input(name="designation", type="text")
+                            input.form-input(name="designation", type="text")
                     .form-row
-                        .form-column
+                        .form-group
                             label(for="maritalStatus") Marital Status
-                            select(name="maritalStatus")
+                            select.form-select(name="maritalStatus")
                                 option(value="Single") Single
                                 option(value="Married") Married
-                        .form-column
+                        .form-group
                             label(for="branch") Branch
-                            select(id="branch", name="branch")
+                            select.form-select(name="branch")
                                 option(value="Mylapore") Mylapore
                                 option(value="T Nagar") T Nagar
                                 option(value="Alwarpet") Alwarpet
                     .form-row
-                        .form-column
+                        .form-group
                             label.upload-label(for="image") Profile Image
-                            .upload-btn(for="image") Choose Image
-                            input(type="file", id="image", name="image", accept="image/*")
-
-                    .form-row
-                        .form-column
+                            .file-input-container
+                                label.file-input-label(for="image-upload")
+                                    span.upload-icon +
+                                    span Choose Image
+                                input.file-input(type="file", id="image-upload", name="image", accept="image/*")
+                        .form-group
                             label(for="isAdmin") Admin:
                             .radio-options
                                 label.radio-option
-                                    input(type="radio", name="isAdmin", value="1")
+                                    input.radio-input(type="radio", name="isAdmin", value="1")
                                     | Yes
                                 label.radio-option
-                                    input(type="radio", name="isAdmin", value="0", checked)
+                                    input.radio-input(type="radio", name="isAdmin", value="0", checked)
                                     | No
-
-                    input(type="submit", class="signin", value="Register")
-
-                    if (message)
-                        p.error #{message}
+                    .button-container
+                        input.signin-button(type="submit", value="Signup")
+                    p.error-message #{message}
