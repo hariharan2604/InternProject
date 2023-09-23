@@ -1,11 +1,10 @@
 const express = require("express");
 const path = require("path");
-const sequelize = require("./db/connection");
-const associations = require("./models/association");
-const User = require("./models/User");
-const Credential = require("./models/Credential");
-const Image = require("./models/Image");
-const UserController = require("./controllers/userController");
+// const associations = require("./models/association");
+// const User = require("./models/User");
+// const Credential = require("./models/Credential");
+// const Image = require("./models/Image");
+// const UserController = require("./controllers/userController");
 const morgan = require("morgan");
 const axios = require("axios");
 const app = express();
@@ -24,8 +23,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(express.json());
-associations({ User, Credential, Image });
-const userController = new UserController();
+// associations({ User, Credential, Image });
+// const userController = new UserController();
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -111,12 +110,5 @@ app.post("/login", async (req, res, next) => {
 });
 app.use("/users", require("./routes/crud"));
 app.use("/", requireAuth, require("./routes/nav"));
-const PORT = process.env.PORT || 3000;
-sequelize
-  .sync({ alter: true })
-  .then(() => {})
-  .catch((error) => {
-    console.error("Error syncing models:", error);
-  });
-
+// const PORT = process.env.PORT || 3000;
 module.exports = app;

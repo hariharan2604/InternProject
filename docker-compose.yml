@@ -1,0 +1,26 @@
+version: "3"
+services:
+  app:
+    image: emp-db:latest # Replace with your app's Docker image
+    ports:
+      - "4000:4000" # Map the app's port to the host
+    env_file:
+      - .env # Use environment variables from the .env file
+    depends_on:
+      - mysql-container # Wait for the MySQL container to be "up"
+    command: ["./migrate.sh"]
+    restart: always
+
+  mysql-container:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password # Set a secure root password
+      MYSQL_DATABASE: emp_db # Create a database named 'emp_db'
+    volumes:
+      - mysql_data:/var/lib/mysql # Persist MySQL data
+    ports:
+      - "3306:3306" # Map the MySQL port to the host
+
+volumes:
+  mysql_data: # Define a volume for MySQL data persistence

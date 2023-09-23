@@ -1,7 +1,8 @@
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../db/connection");
-
-class User extends Model {}
+const Credential = require("./Credential");
+const Image = require("./Image");
+class User extends Model { }
 
 User.init(
   {
@@ -45,4 +46,36 @@ User.init(
   }
 );
 
+User.hasOne(Credential, {
+  onDelete: "CASCADE",
+  foreignKey: {
+    name: "employeeId",
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+});
+User.hasOne(Image, {
+  onDelete: "CASCADE",
+  foreignKey: {
+    name: "employeeId",
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+});
+Credential.belongsTo(User, {
+  onDelete: "CASCADE",
+  foreignKey: {
+    name: "employeeId",
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+});
+Image.belongsTo(User, {
+  onDelete: "CASCADE",
+  foreignKey: {
+    name: "employeeId",
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+});
 module.exports = User;
