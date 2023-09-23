@@ -114,11 +114,9 @@ app.use("/", requireAuth, require("./routes/nav"));
 const PORT = process.env.PORT || 3000;
 sequelize
   .sync({ alter: true })
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  })
+  .then(() => {})
   .catch((error) => {
     console.error("Error syncing models:", error);
   });
+
+module.exports = app;
