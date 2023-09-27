@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "root_password",
-    "database": "emp_db",
-    "host": "mysql-container",
+    "password": "root",
+    "database": "users",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
