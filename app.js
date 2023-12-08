@@ -1,10 +1,5 @@
 const express = require("express");
 const path = require("path");
-// const associations = require("./models/association");
-// const User = require("./models/User");
-// const Credential = require("./models/Credential");
-// const Image = require("./models/Image");
-// const UserController = require("./controllers/userController");
 const morgan = require("morgan");
 const axios = require("axios");
 const app = express();
@@ -23,8 +18,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(express.json());
-// associations({ User, Credential, Image });
-// const userController = new UserController();
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -57,7 +50,7 @@ app.get("/", (req, res, next) => {
 app.post("/register", upload.single("image"), async (req, res, next) => {
   const formData = req.body;
   const userDetails = await axios.post(
-    "http://localhost:4000/users/register",
+    `${process.env.DOMAIN_NAME}/users/register`,
     formData,
     {
       headers: {
@@ -71,7 +64,7 @@ app.post("/register", upload.single("image"), async (req, res, next) => {
   } else {
     const { filename, path: filepath } = req.file;
     const imageUpload = await axios.post(
-      `http://localhost:4000/users/upload/image/${userDetails.data.employeeId}`,
+      `${process.env.DOMAIN_NAME}/users/upload/image/${userDetails.data.employeeId}`,
       {
         filename: filename,
         path: `/uploads/${filename}`,
@@ -92,7 +85,7 @@ app.post("/register", upload.single("image"), async (req, res, next) => {
 app.post("/login", async (req, res, next) => {
   const formData = req.body;
   const isAuthenticated = await axios.post(
-    "http://localhost:4000/users/login",
+    `${process.env.DOMAIN_NAME}/users/login`,
     formData,
     {
       headers: {
@@ -110,5 +103,4 @@ app.post("/login", async (req, res, next) => {
 });
 app.use("/users", require("./routes/crud"));
 app.use("/", requireAuth, require("./routes/nav"));
-// const PORT = process.env.PORT || 3000;
 module.exports = app;
