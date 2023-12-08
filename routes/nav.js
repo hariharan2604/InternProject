@@ -11,11 +11,11 @@ router.get("/logout", (req, res, next) => {
 
 router.get("/admin/profile", async (req, res, next) => {
   const id = req.session.user;
-  const userData = await axios.get(`${process.env.DOMAIN_NAME}+users/${id}`);
+  const userData = await axios.get(`${process.env.DOMAIN_NAME}/users/${id}`);
   const name = req.session.name;
   const data = userData.data;
   const image = await axios.get(
-    `${process.env.DOMAIN_NAME}+users/image/${data.employeeId}`
+    `${process.env.DOMAIN_NAME}/users/image/${data.employeeId}`
   );
   const profileImage = image.data.filePath;
   res.render("profile", { data, name, profileImage, isAdmin: true });
@@ -24,12 +24,12 @@ router.get("/admin/profile", async (req, res, next) => {
 router.get("/dashboard", async (req, res, next) => {
   const id = req.session.user;
   console.log(id);
-  const isAdmin = await axios.get(`${process.env.DOMAIN_NAME}+users/${id}`);
+  const isAdmin = await axios.get(`${process.env.DOMAIN_NAME}/users/${id}`);
   console.log(isAdmin.data);
   if (isAdmin.data.Credential.isAdmin) {
     if (req.query.branch) {
       const usersByBranch = await axios.get(
-        `${process.env.DOMAIN_NAME}+users/filter/${req.query.branch}`
+        `${process.env.DOMAIN_NAME}/users/filter/${req.query.branch}`
       );
       res.render("admin", {
         data: usersByBranch.data,
@@ -38,7 +38,7 @@ router.get("/dashboard", async (req, res, next) => {
       });
     } else {
       const usersByBranch = await axios.get(
-        `${process.env.DOMAIN_NAME}+users/filter/All`
+        `${process.env.DOMAIN_NAME}/users/filter/All`
       );
       res.render("admin", {
         data: usersByBranch.data,
@@ -47,11 +47,11 @@ router.get("/dashboard", async (req, res, next) => {
       });
     }
   } else {
-    const userData = await axios.get(`${process.env.DOMAIN_NAME}+users/${id}`);
+    const userData = await axios.get(`${process.env.DOMAIN_NAME}/users/${id}`);
     const name = req.session.name;
     const data = userData.data;
     const image = await axios.get(
-      `${process.env.DOMAIN_NAME}+users/image/${data.employeeId}`
+      `${process.env.DOMAIN_NAME}/users/image/${data.employeeId}`
     );
     const profileImage = image.data.filePath;
     res.render("profile", { data, name, profileImage });
@@ -61,10 +61,10 @@ router.get("/dashboard", async (req, res, next) => {
 router.post("/update", async (req, res, next) => {
   const updatedDetails = req.body;
   const userType = await axios.get(
-    `${process.env.DOMAIN_NAME}+users/type/${req.session.user}`
+    `${process.env.DOMAIN_NAME}/users/type/${req.session.user}`
   );
   const response = await axios.put(
-    `${process.env.DOMAIN_NAME}+users/update/${updatedDetails.employeeId}`,
+    `${process.env.DOMAIN_NAME}/users/update/${updatedDetails.employeeId}`,
     updatedDetails
   );
   if (response.data.message) {
@@ -76,7 +76,7 @@ router.post("/update", async (req, res, next) => {
 
 router.get("/update/:id", async (req, res, next) => {
   const presentDetail = await axios.get(
-    `${process.env.DOMAIN_NAME}+users/${req.params.id}`
+    `${process.env.DOMAIN_NAME}/users/${req.params.id}`
   );
   if (presentDetail.data.message) {
     res.render("error");
@@ -91,10 +91,10 @@ router.post("/filter", async (req, res, next) => {
 
 router.get("/delete/:id", async (req, res, next) => {
   const isAdmin = await axios.get(
-    `${process.env.DOMAIN_NAME}+users/type/${req.session.user}`
+    `${process.env.DOMAIN_NAME}/users/type/${req.session.user}`
   );
   const flag = await axios.delete(
-    `${process.env.DOMAIN_NAME}+users/delete/${req.params.id}`
+    `${process.env.DOMAIN_NAME}/users/delete/${req.params.id}`
   );
   if (flag.data.success) {
     if (isAdmin.data.isAdmin) {
