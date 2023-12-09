@@ -1,17 +1,11 @@
 // controllers/UserController.js
 
-const multer = require("multer");
-const storage = multer.memoryStorage(); // Store files in memory as buffers
-const upload = multer({ storage: storage });
 const { Op } = require("sequelize");
-const sequelize = require("../db/connection");
 const User = require("../models/User");
 const Credential = require("../models/Credential");
 const Image = require("../models/Image");
-const { all } = require("express/lib/application");
 const { join } = require("path");
 const { unlink } = require("fs");
-const axios = require("axios");
 
 class UserController {
   async createUser(req, res) {
