@@ -1,11 +1,10 @@
 // controllers/UserController.js
-
+const fs = require('fs')
+const path=require("path")
 const { Op } = require("sequelize");
 const User = require("../models/User");
 const Credential = require("../models/Credential");
 const Image = require("../models/Image");
-const { join } = require("path");
-const { unlink } = require("fs");
 
 class UserController {
   async createUser(req, res) {
@@ -43,10 +42,14 @@ class UserController {
 
   async uploadImage(req, res) {
     try {
+      const filePath = path.parse(req.body.path);
+      fs.writeFileSync(`${process.env.ASSET_PATH}${filePath.base}`, fs.readFileSync(filePath.dir + "/" + filePath.base))
+      fs.unlinkSync(req.body.path)
+      let targetFile=`${process.env.ASSET_PATH}${filePath.base}`
       const imgFlag = await Image.create({
         employeeId: req.params.id,
-        fileName: req.body.filename,
-        filePath: req.body.path,
+        fileName: filePath.base,
+        filePath: targetFile,
       });
       // res.send(imgFlag);
       if (!imgFlag) {
@@ -63,7 +66,7 @@ class UserController {
     try {
       const id = req.params.id;
       const file = await Image.findByPk(id, {
-        attributes: ["filePath"],
+        attributes: ["fileName"],
       });
       console.log("The file", file);
       // res.send("Hello");
@@ -216,23 +219,9 @@ class UserController {
         where: { employeeId: userIdToDelete },
         cascade: true,
       });
-      console.log(deletedUser);
       if (deletedUser) {
-        const filePath = join(
-          __dirname,
-          "../public/uploads",
-          filename.fileName
-        );
-
-        // Delete the file from the filesystem
-        unlink(filePath, (err) => {
-          if (err) {
-            console.error("Error deleting file:", err);
-            // Handle the error as needed
-          } else {
-            console.log("File deleted successfully");
-          }
-        });
+        const filePath = process.env.ASSET_PATH+filename.fileName;
+        fs.unlinkSync(filePath);
         return res.status(200).json({
           success: "User and associated Credential deleted successfully",
         });

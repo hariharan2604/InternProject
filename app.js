@@ -67,7 +67,7 @@ app.post("/register", upload.single("image"), async (req, res, next) => {
       `${process.env.DOMAIN_NAME}/users/upload/image/${userDetails.data.employeeId}`,
       {
         filename: filename,
-        path: `/uploads/${filename}`,
+        path: filepath,
       },
       {
         headers: {
