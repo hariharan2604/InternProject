@@ -17,7 +17,7 @@ router.get("/admin/profile", async (req, res, next) => {
   const image = await axios.get(
     `${process.env.DOMAIN_NAME}/users/image/${data.employeeId}`
   );
-  const profileImage = process.env.ASSET_DOMAIN + "/" + image.data.fileName;
+  const profileImage = process.env.DOMAIN_NAME + process.env.ASSET_PATH + image.data.fileName;
   res.render("profile", { data, name, profileImage, isAdmin: true });
 });
 
@@ -53,7 +53,7 @@ router.get("/dashboard", async (req, res, next) => {
     const image = await axios.get(
       `${process.env.DOMAIN_NAME}/users/image/${data.employeeId}`
     );
-    const profileImage = process.env.ASSET_DOMAIN + "/" + image.data.fileName;
+    const profileImage = process.env.DOMAIN_NAME + process.env.ASSET_PATH + image.data.fileName;
     res.render("profile", { data, name, profileImage });
   }
 });
