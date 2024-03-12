@@ -14,7 +14,7 @@ fi
 
 # Assign read and write permissions to the directory and its contents
 sudo chmod -R 0777 "$directory_name"
-
+sudo cp nginx.conf /etc/nginx/sites-available/emp-manager
 sudo ln -s /etc/nginx/sites-available/emp-manager /etc/nginx/sites-enabled/
 
 echo "Read and write permissions assigned recursively to '$directory_name'."
